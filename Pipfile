@@ -6,6 +6,12 @@ name = "pypi"
 [packages]
 django = "*"
 python-decouple = "*"
+django-debug-toolbar = "*"
+django-mptt = "*"
+whitenoise = "*"
+psycopg2 = "*"
+django-heroku = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 
