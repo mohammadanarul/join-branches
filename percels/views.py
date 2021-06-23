@@ -1,35 +1,45 @@
-from django.shortcuts import render, HttpResponse
-from django.views.generic import View, CreateView
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
+from django.views.generic import View, CreateView, ListView
 from django.urls import reverse_lazy
-from .forms import (
-    AreaLocationForm,
-    PicupLocationForm,
-    PercelForm,
-    PercelPicUpAndDeliveryForm,
-)
+from django.conf import settings
+from accounts.models import Account
+from accounts.views import StaffRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import PercelForm
 
-from .models import (
-    AreaLocation,
-    PicupLocation,
-    Percel,
-    PercelPicUpAndDelivery
-)
+from .models import Percel
 
-def home_page_view(request):
-    return HttpResponse('<h1>Welcome</h1>')
+class HomeView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'home.html')
 
-class AreaLocationCreateView(CreateView):
-    model = AreaLocation
-    template_name = 'percels/create_arealocation.html'
-    form_class = AreaLocationForm 
-    success_url = reverse_lazy('percel:home_page')
+class PercelListview(StaffRequiredMixin, ListView):
+    model = Percel
+    template_name = 'percels/percel-list.html'
 
-class PicupLocationCreateView(CreateView):
-    model = PicupLocation
-    template_name = 'percels/create_picuplocation.html'
-    form_class = PicupLocationForm 
-    success_url = reverse_lazy('percel:home_page')
+    def get_queryset(self, *args, **kwargs):
+        qs = super(PercelListview, self).get_queryset(*args, **kwargs)
+        qs = qs.filter(user=self.request.user)
+        return qs
+
+class PercelCreateView(StaffRequiredMixin, CreateView):
+    model = Percel
+    template_name = 'percels/create_percel.html'
+    form_class = PercelForm
+
+    def get_context_data(self, **kwargs):
+        current_user = self.request.user
+        user = Account.objects.get(pk=current_user.pk)
+        context = super(PercelCreateView, self).get_context_data(**kwargs)
+        context['form'].fields['picuplocation'].queryset = PicupLocation.objects.filter(user_id=user.id)
+
+    # def get_form_kwargs(self):
+    #     kwargs = super(PercelCreateView, self).get_form_kwargs()
+    #     kwargs['user'] = self.request.user
+    #     return kwargs
+
 from django.forms import formset_factory, modelformset_factory
+
 '''
 def percel_create_view(request):
     PercelFormSet = modelformset_factory(Percel, fields=(
@@ -52,8 +62,7 @@ def percel_create_view(request):
         return redirect('/')
     template_name = 'percels/create_percel.html'
     return render(request, template_name, {'formset': formset})
-    
-'''
+
 def percel_create_view(request):
     if request.method == 'POST':
         form = PercelForm(request.POST, request.user)
@@ -63,14 +72,8 @@ def percel_create_view(request):
             instance.save()
             return redirect('percel:home_page')
     else:
-        form = PercelForm(request.user)
+        form = PercelForm()
     template_name = 'percels/create_percel.html'
     return render(request, template_name, {'form': form})
-
-
-class PercelPicUpAndDeliveryCreateView(CreateView):
-    model = PercelPicUpAndDelivery
-    template_name = 'percels/create_percel_picup_and_delivery.html'
-    form_class = PercelPicUpAndDeliveryForm 
-    success_url = reverse_lazy('percel:home_page')
+'''
 

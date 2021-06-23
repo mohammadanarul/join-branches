@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head_title %}All-Users{% endblock head_title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-xl-12 m-auto">
+            <div class="card card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Is activate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for object in object_list %}
+                            <tr>
+                                <td>{{ object.username }}</td>
+                                <td>{{ object.email }}</td>
+                                <td>
+                                    {{ object.type }}
+                                </td>
+                                    
+                                <td>{{ object.is_active }}</td>
+                            </tr>
+                        {% endfor %}
+                            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

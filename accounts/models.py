@@ -18,6 +18,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     type                    = models.CharField(choices=UserTypes.choices, default=base_type, max_length=20)
     username                = models.CharField(max_length=155, unique=True)
     email                   = models.EmailField(unique=True)
+    # area                    = models.ForeignKey(AreaLocation, verbose_name=("Area Location"), on_delete=models.CASCADE)
     area_location           = models.CharField(max_length=1000) 
     last_login              = models.DateTimeField(verbose_name='last login', auto_now=True)
     date_joined             = models.DateTimeField(verbose_name='date join', auto_now_add=True)

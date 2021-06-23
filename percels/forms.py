@@ -38,9 +38,10 @@ class PercelForm(forms.ModelForm):
             "product_price",
             "customerdetails",
             )
-        def __init__(self, user, *args, **kwargs):
+        def __init__(self, *args, **kwargs):
+            user = kwargs.pop('user')
             super(PercelForm, self).__init__(*args, **kwargs)
-            self.fields['picuplocation'].queryset = PicupLocation.objects.filter(user=user)
+            self.fields['picuplocation'].queryset = Folder.objects.filter(user=user)
 
 class PercelPicUpAndDeliveryForm(forms.ModelForm):
     

@@ -1,0 +1,54 @@
+<nav id="sidebar" class="sidebar">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="/">
+            <span class="align-middle">Join Branches</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                Pages
+            </li>
+
+            <li class="sidebar-item active">
+                <a class="sidebar-link" href="/">
+                    <i class="align-middle" data-feather="sliders"></i> <span
+                        class="align-middle">Dashboard</span>
+                </a>
+            </li>
+
+            
+            {% if user.is_staff %}
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{% url 'percel:percels_list' %}">
+                        <i class="align-middle"></i> <span
+                            class="align-middle">Percel</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{% url 'percel:area_location_list' %}">
+                        <i class="align-middle" data-feather="plus-square"></i> <span
+                            class="align-middle">Area Location</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{% url 'percel:picuplocation_list' %}">
+                        <i class="align-middle" data-feather="plus-square"></i> <span
+                            class="align-middle">Picup Location</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{% url 'percel:percel_picup_and_delivery_view' %}">
+                        <i class="align-middle" data-feather="plus-square"></i> <span
+                            class="align-middle">Picup and delivery Percels</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{% url 'account:all_users' %}">
+                        <i class="align-middle" data-feather="plus-square"></i> <span
+                            class="align-middle">All User</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

@@ -12,6 +12,7 @@ AUTHENTICATION_BACKENDS = ['accounts.backends.EmailOrUsernameBackend'] # new
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -22,6 +23,8 @@ INSTALLED_APPS = [
     # custom app
     'accounts.apps.AccountsConfig',
     'percels.apps.PercelsConfig',
+    'arealocations.apps.ArealocationsConfig',
+    'picuplocations.apps.PicuplocationsConfig',
 
     # third perty app
     'crispy_forms',
@@ -101,6 +104,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+
+# login redirect inside
+LOGIN_REDIRECT = '/'
+LOGIN_URL = 'account:login_view'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
