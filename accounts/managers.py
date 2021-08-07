@@ -15,6 +15,7 @@ class AccountManager(BaseUserManager):
             username=username,
         )
         user.set_password(password)
+        user.is_rider = True
         user.save(using=self._db)
         return user
 
@@ -24,7 +25,7 @@ class AccountManager(BaseUserManager):
             password=password,
             username=username,
         )
-        user.is_rider = True
+        user.is_rider = False
         user.is_hubmanager = True
         user.is_staff = True
         user.is_superuser=True

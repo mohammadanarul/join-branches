@@ -6,23 +6,18 @@ from django.contrib.auth.models import (
     )
     
 from .managers import AccountManager
+from arealocations.models import AreaLocation
 
 # Custom user created.
 class Account(AbstractBaseUser, PermissionsMixin):
-    class UserTypes(models.TextChoices):
-        RIDER                   = 'PRIDER', 'Rider'
-        HUBMANAGER              = 'HUBMANAGER', 'Hubmanager'
-    
-    base_type = UserTypes.RIDER
-
-    type                    = models.CharField(choices=UserTypes.choices, default=base_type, max_length=20)
     username                = models.CharField(max_length=155, unique=True)
     email                   = models.EmailField(unique=True)
-    # area                    = models.ForeignKey(AreaLocation, verbose_name=("Area Location"), on_delete=models.CASCADE)
-    area_location           = models.CharField(max_length=1000) 
+    area_location           = models.ForeignKey(AreaLocation, verbose_name=("Area Location"), on_delete=models.CASCADE, null=True, blank=True)
     last_login              = models.DateTimeField(verbose_name='last login', auto_now=True)
     date_joined             = models.DateTimeField(verbose_name='date join', auto_now_add=True)
     is_active               = models.BooleanField(default=True)
+    is_rider                = models.BooleanField(default=False)
+    is_hubmanager           = models.BooleanField(default=False)
     is_staff                = models.BooleanField(default=False)
     is_superuser            = models.BooleanField(default=False)
     
@@ -44,18 +39,13 @@ class Account(AbstractBaseUser, PermissionsMixin):
         "Does the user have permissions to view the app `app_label`?"
         #Simplest possible answer: Yes, always
         return True
-    
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.type = self.base_type
-        return super().save(*args, **kwargs)
 
 class RiderManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type=Account.UserTypes.RIDER)
+        return super().get_queryset(*args, **kwargs).filter(is_rider=True)
 
 class Rider(Account):
-    base_type = Account.UserTypes.RIDER
+
     objects = RiderManager()
     
     class Meta:
@@ -63,10 +53,10 @@ class Rider(Account):
 
 class TotalHubManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
-        return super().get_queryset(*args, **kwargs).filter(type = Account.UserTypes.HUBMANAGER)
+        return super().get_queryset(*args, **kwargs).filter(is_hubmanager=True)
 
 class HubManager(Account):
-    base_type = Account.UserTypes.HUBMANAGER
+
     objects = TotalHubManager()
 
     class Meta:

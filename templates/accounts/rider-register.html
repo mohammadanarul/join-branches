@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-xl-6 m-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Rider register</h5>
+                    <h6 class="card-subtitle text-muted">Default Bootstrap form layout.</h6>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+
+                        {{ form|crispy }}
+                        <!-- <div class="form-group">
+                            <input type="text" name='username' class="form-control" placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name='email' class="form-control" placeholder="Email address">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name='area_location' class="form-control" placeholder="Area Location">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name='password1' class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name='password2' class="form-control" placeholder="Password Confirmation.">
+                        </div>
+                        <div class="form-group">
+                            <a href="#">forgot password</a>
+                        </div> -->
+                        {% for field in form %}
+                        <p>
+                            {% for error in field.errors %}
+                            <p style="color: red;">{{ error }}</p>
+                            {% endfor %}
+                        </p>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        <p style="color: red;">{{ form.non_field_errors }}</p>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

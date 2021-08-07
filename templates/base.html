@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="{% static 'img/icons/icon-48x48.png' %}" />
 
-    <title>Join Branches &amp; Dashboard Template</title>
+    <title>Join Branches &amp; {% block head_title %}{% endblock head_title %}</title>
 
     <link href="{% static 'css/app.css' %}" rel="stylesheet">
 </head>
@@ -22,6 +22,7 @@
         {% include 'snippets/side-navbar.html' %}
         <div class="main">
             {% include 'snippets/navbar.html' %}
+            {% include 'snippets/messages.html' %}
 
             <main class="content">
                 

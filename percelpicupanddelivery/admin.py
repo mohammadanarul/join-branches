@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import PercelPicUpAndDelivery
+from .models import PercelPicUp, PercelDelivery
 
-@admin.register(PercelPicUpAndDelivery)
-class PercelPicUpAndDeliveryModelAdmin(admin.ModelAdmin):
+@admin.register(PercelPicUp)
+class PercelPicUpModelAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(PercelDelivery)
+class PercelDeliveryModelAdmin(admin.ModelAdmin):
     pass

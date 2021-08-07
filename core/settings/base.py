@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'percels.apps.PercelsConfig',
     'arealocations.apps.ArealocationsConfig',
     'picuplocations.apps.PicuplocationsConfig',
+    'percelpicupanddelivery.apps.PercelpicupanddeliveryConfig',
 
     # third perty app
     'crispy_forms',

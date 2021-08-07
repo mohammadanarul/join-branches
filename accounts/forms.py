@@ -6,12 +6,12 @@ from .models import Account, HubManager, Rider
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = Account
-        fields = ['email', 'type', 'is_staff']
+        fields = ['email', 'is_rider', 'is_hubmanager', 'is_staff']
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = Account
-        fields = ['email', 'username', 'type', 'is_staff']
+        fields = ['email', 'username', 'is_rider', 'is_hubmanager', 'is_staff']
 
 
 class RiderRegisterForm(UserCreationForm):
@@ -20,7 +20,7 @@ class RiderRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'area_location', 'password1', 'password2']
 
         def clean_email(self):
-            email = self.cleaned_data["phone_number"].lower()
+            email = self.cleaned_data["email"].lower()
             try:
                 user = Account.objects.get(email=email)
             except Exception as e:
@@ -41,7 +41,7 @@ class HubManagerRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'area_location', 'password1', 'password2']
 
         def clean_email(self):
-            email = self.cleaned_data["phone_number"].lower()
+            email = self.cleaned_data["email"].lower()
             try:
                 user = Account.objects.get(email=email)
             except Exception as e:
@@ -55,3 +55,27 @@ class HubManagerRegisterForm(UserCreationForm):
             except Exception as e:
                 return username
             raise forms.ValueError(f'email {self.user} is Alredy used.')
+
+
+'''
+class CustomHubManagerCreateForm(UserCreationForm):
+    class Meta(UserCreationForm):
+        model = HubManager
+        fields = ['email', 'type',]
+
+class CustomHubManagerChangeForm(UserChangeForm):
+    class Meta:
+        model = HubManager
+        fields = ['email', 'username', 'type']
+
+class CustomRiderCreateForm(UserCreationForm):
+    class Meta(UserCreationForm):
+        model = Rider
+        fields = ['email', 'type']
+
+class CustomRiderChangeForm(UserChangeForm):
+    class Meta:
+        model = Rider
+        fields = ['email', 'username', 'type']
+
+'''

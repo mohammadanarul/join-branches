@@ -1,17 +1,23 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.conf import settings
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, CreateView
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Account
+from django.urls import reverse_lazy
+from .forms import RiderRegisterForm, HubManagerRegisterForm
+from .models import Account, Rider
 
-class StaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+class HubManagerRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.is_hubmanager
 
-class AllUserAccount(StaffRequiredMixin, ListView):
-    model = Account
+class AllUserAccount(HubManagerRequiredMixin, View):
+
+    # model = Account
     template_name = 'accounts/all-users.html'
+    def get(self, request, *args, **kwargs):
+        rider = Rider.objects.filter(area_location=request.user.area_location)
+        return render(request, self.template_name, {'rider': rider})
 
 class LoginView(View):
     def get(self, *args, **kwargs):
@@ -35,10 +41,29 @@ class LoginView(View):
         else:
             return redirect('account:login_view')
 
-class LogoutView(View):
+class LogoutView(View): 
     def get(self, *args, **Kwargs):
         logout(self.request)
         return redirect('account:login_view')
+
+class RiderRegisterView(HubManagerRequiredMixin, CreateView):
+    template_name = 'accounts/rider-register.html'
+    form_class = RiderRegisterForm 
+    success_url = reverse_lazy('account:all_users')
+
+    def form_valid(self, form):
+        form.instance.is_rider = True
+        return super(RiderRegisterView, self).form_valid(form)
+
+class HubManagerRegisterView(HubManagerRequiredMixin, CreateView):
+    template_name = 'accounts/hubmanager-register.html'
+    form_class = HubManagerRegisterForm 
+    success_url = reverse_lazy('account:all_users')
+
+    def form_valid(self, form):
+        form.instance.is_hubmanager = True
+        return super(HubManagerRegisterView, self).form_valid(form)
+
 
 def password_reset_request_view(request):
     if request.method == "POST":

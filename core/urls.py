@@ -12,12 +12,19 @@ from core import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # custom path
     path('account/', include('accounts.urls', namespace='account')),
-    path('auth', include('django.contrib.auth.urls')),
     path('', include('percels.urls', namespace='percel')),
+    path('al/', include('arealocations.urls', namespace='arealocation')),
+    path('pd/', include('percelpicupanddelivery.urls', namespace='percelpicupanddelivery')),
+    path('pa/', include('picuplocations.urls', namespace='picuplocation')),
+
+    # building path
+    path('admin/', admin.site.urls),
+    path('auth/', include('django.contrib.auth.urls')),
 ]
 
+# error handling path
 handler400 = views.bad_request
 handler403 = views.permission_denied
 handler404 = views.page_not_found

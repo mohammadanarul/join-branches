@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block head_title %}Percerl And Delivery list{% endblock head_title %}
+{% block content %}
+<div class="container-fluid p-0">
+
+    <div class="row">
+        <div class="col-xl-6 col-xxl-5 d-flex">
+            <ul>
+                
+                {% for object in picup_percels %}
+                    <li>{{ object.user }}</li>
+                    <li>{{ object.pipup_rider }}</li>
+                    <li>{{ object.percel }}</li>
+                    <li>{{ object.completed }}</li>
+                {% endfor %}
+                    
+            </ul>
+            <p>
+                <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    Link with href
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed
+                    when the user activates the relevant trigger.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

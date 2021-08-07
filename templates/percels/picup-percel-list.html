@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-
-{% block head_title %}{% endblock head_title %}
-
+{% block head_title %}Percerl list{% endblock head_title %}
 {% block content %}
-<div class="container">
+<div class="container-fluid p-0">
+
     <div class="row">
         <div class="col-12 col-xl-12 m-auto">
             <div class="card">
@@ -13,34 +12,27 @@
                     <h6 class="card-subtitle text-muted">Add <code>.table-hover</code> to enable a hover state on table
                         rows within a <code>&lt;tbody&gt;</code>.</h6>
                     </div>
-                    <a href="{% url 'percel:percelcreate_view' %}" class="btn btn-primary float-right">Add Percel</a>
+                    <a href="{% url 'percelpicupanddelivery:percel_picup_view' %}" class="btn btn-primary float-right">Percel Picup</a>
                 </div>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>id</th>
                             <th>username</th>
-                            <th>Customer name</th>
-                            <th>Customer Phone Number</th>
-                            <th>Customer Address</th>
-                            <th>Picup Location</th>
-                            <th>Area Location</th>
-                            <th>date</th>
-                            <th>Action</th>
+                            <th>Picup Rider</th>
+                            <th>Percel</th>
+                            <th>Coplete</th>
                         </tr>
                     </thead>
                     <tbody>
                         
                         {% for object in object_list %}
                             <tr>
-                                <td>{{ object.percel_unique_id }}</td>
+                                <td>{{ forloop.count }}</td>
                                 <td>{{ object.user }}</td>
-                                <td>{{ object.customer_name }}</td>
-                                <td>{{ object.customer_phone_number }}</td>
-                                <td>{{ object.customer_address }}</td>
-                                <td>{{ object.picuplocation }}</td>
-                                <td>{{ object.area_location }}</td>
-                                <td>{{ object.created_at|date }}</td>
+                                <td>{{ object.pipup_rider }}</td>
+                                <td>{{ object.percel }}</td>
+                                <td>{{ object.completed }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <a href="#"><i class="align-middle" data-feather="edit-2"></i></a>
@@ -61,5 +53,6 @@
             </div>
         </div>
     </div>
+
 </div>
 {% endblock content %}
