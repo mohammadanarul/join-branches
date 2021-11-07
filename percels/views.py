@@ -31,9 +31,10 @@ class PercelCreateView(HubManagerRequiredMixin, CreateView):
     form_class = PercelForm
     success_url = reverse_lazy('percel:home_page')
 
-    def get_context_data(self, **kwargs):
-        kwargs['picuplocation'] = PicupLocation.objects.filter(user=self.request.user)
-        return super(PercelCreateView, self).get_context_data(**kwargs)
+    def get_initial(self, *args, **kwargs):
+        initial = super(PercelCreateView, self).get_initial(**kwargs)
+        initial['picuplocation'] = PicupLocation.objects.filter(user=self.request.user)
+        return initial
 
     def form_valid(self, form):
         form.instance.user = self.request.user

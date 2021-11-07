@@ -15,6 +15,10 @@ class PercelForm(forms.ModelForm):
             "product_price",
             "customerdetails",
         )
+        def __init__(self, *args, **kwargs):
+            user = kwargs.pop('user')
+            super(FolderForm, self).__init__(*args, **kwargs)
+            self.fields['picuplocation'].queryset = PicupLocation.objects.filter(user=user)
 
 '''
 https://bdmidia.com/%e0%a6%a6%e0%a7%87%e0%a6%b6%e0%a7%87%e0%a6%b0-%e0%a6%96%e0%a6%ac%e0%a6%b0/%e0%a6%a8%e0%a6%bf%e0%a6%b0%e0%a7%8d%e0%a6%ae%e0%a6%be%e0%a6%a3-%e0%a6%b6%e0%a7%87%e0%a6%b7-%e0%a6%b9%e0%a6%93%e0%a7%9f%e0%a6%be%e0%a6%b0-%e0%a6%86%e0%a6%97%e0%a7%87%e0%a6%87-%e0%a6%ad/?fbclid=IwAR3kz0JcwPPemHPLljWwLRGOFMqB7YKbnAX56LkqURukZxdxcD_TORBxUO8
